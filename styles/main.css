@@ -52,7 +52,6 @@
 }
 
 #menu {
-    position: absolute;
     top: 0px;
     left: 0px;
 }
@@ -125,6 +124,9 @@ a:hover {
     border-bottom: 1px solid #993213;
 }
 
+.mainSection{
+    display: block;
+}
 
 .date {
     color: #bbc3c8;
