@@ -1,8 +1,8 @@
 const transformObject = {
     baseType: 'Feet',
     conversionFromBase: {
-        Inches: 12,
-        Feet: 1,
+        Inches: 12.0,
+        Feet: 1.0,
         Yards: 0.333,
         Miles: 0.000189394,
         Meters: 0.304800097536,
