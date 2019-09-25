@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Standard Web Pge</title>
+    <link rel="stylesheet" type="text/css" href="standardstyles.css" />
+</head>
+
+<body>
+    <div class="header">
+        <h1>Initiate Pipeline Run</h1>
+    </div>
+    <div class="row">Book
+        <select id="bookId">
+            <option value="0">&lt;none&gt;</option>
+            <option value="1">Kilbarchan Parish Record</option>
+            <option value="2">The Ely Ancestry</option>
+        </select>
+    </div>
+    <div class="row">Page Range
+        <input type="text" name="startPage" size="5" value="1"> –
+        <input type="text" name="endPage" size="5" value="100">
+    </div>
+    <div class="row"> Tools
+        <div class="optionsBox">
+            <input type="checkbox" id="tool1" name="tools" value="frontier" checked="checked"> FROntIER
+            <input type="checkbox" id="tool2" name="tools" value="greendda"> GreenDDA
+            <input type="checkbox" id="tool3" name="tools" value="greenfie"> GreenFIE
+            <input type="checkbox" id="tool4" name="tools" value="listreader"> ListReader
+            <input type="checkbox" id="tool5" name="tools" value="ontoes"> OntoES
+            <input type="checkbox" id="tool6" name="tools" value="ontosoar"> OntoSoar
+        </div>
+    </div>
+    <div class="row">
+        Run Type
+        <input type="radio" name="runtype" checked="checked"> with COMET
+        <input type="radio" name="runtype"> without COMET
+    </div>
+    <div class="row">
+        <input type="button" id="initiateRun" value="Run">
+        <a href="#" onclick="goHome()">Back</a>
+    </div>
+</body>
+
+</html>
