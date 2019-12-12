@@ -1,183 +1,383 @@
-
 <!DOCTYPE html>
-<html lang="en-US">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
 <meta charset="utf-8" />
-<meta name="author" content="Rohit Khattar" />
-<meta name="description" content="Class blog." />
-<meta name="keywords" content="" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.58.3" />
-
-<link rel="canonical" href="/">
-<meta property="og:title" content="594R Website" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/" />
-
-<meta property="og:updated_time" content="2019-09-25T17:21:56-06:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="594R Website"/>
-<meta name="twitter:description" content=""/>
-
-
-<meta itemprop="name" content="594R Website">
-<meta itemprop="description" content="">
-
-
-
-<link rel="stylesheet" href="/css/layout.css" />
-
-
-<link rel="stylesheet" href="/css/default-dark.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>
+<title>Predicting Surface Runoff</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.49.4/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.49.4/plotly-latest.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
 
 
-     594R Website 
 
-</title>
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
 
 </head>
 
-
 <body>
-<div class="main">
-<header>
-
-<div class="header-bar">
-
-  <nav>
-    <div class="siteTitle">
-      <a href="/">594R Website</a>
-    </div> 
-
-    
-    
-    <a class="nav-item" href="/post/"><div class="nav-item-title">Posts</div></a>
-    
-
-  </nav>
-
-  
-<div class="social-links-header">
-
-  
-  <a href="mailto:rohitkhattar11@gmail.com"><div class="social-link">email</div></a>
-  
-
-  
-  <a href="https://github.com/rfun" target="_blank"><div class="social-link">gh</div></a>
-  
-
-  
-
-  
-
-  
-
-</div>
 
 
-</div>
+<div class="container-fluid main-container">
 
 
-</header>
 
 
-<main>
-
-
-  
-    <article class="post-preview">
-
-  <header>
-    <h2 class="title"> <a href='/post/assignment-intro/'> Assignment Intro</a> </h2>
-    <div class="meta">
-      <div class="date">
-      25 Sep, 2019 - 1 minutes
-      </div>
-      
-<div class="tags">
-    
-</div>
-
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Predicting Surface Runoff</a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="collinearity.html">Collinearity Analysis</a>
+</li>
+<li>
+  <a href="input.html">Input Variable Analysis</a>
+</li>
+<li>
+  <a href="results.html">Model Results</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
 
-  </header>
-
-  <div class="summary">
-    Welcome to the intro for this assignment. In this assignment we did the following things:
- Learn Hugo with LinkedIn Installed Hugo Installed a theme Updated config files  
-  </div>
-
-  <div class="rmore">
-    <a href='/post/assignment-intro/' class="rmore">Read more</a>
-  </div>
-
-
-</article>
-
-
-
-
-<div class="page-nav">
-  <div class="page-prev">
-    
-  </div> 
-
-  <div class="page-num">
-    1/1
-  </div> 
-
-  <div class="page-next">
-    
-  </div> 
-</div> 
+<div class="fluid-row" id="header">
 
 
-</main>
 
-  <footer>
-
-  <div class="social-links-footer">
-
-  
-  <a href="mailto:rohitkhattar11@gmail.com"><div class="social-link">Email</div></a>
-  
-
-  
-  <a href="https://github.com/rfun" target="_blank"><div class="social-link">GitHub</div></a>
-  
-
-  
-
-  
-
-  
-
-  <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
-  </div>
+<h1 class="title toc-ignore">Predicting Surface Runoff</h1>
 
 </div>
 
 
-  <div class="copyright"> Copyright (c) 2019, all rights reserved. </div>
+<p>A major problem across developing countries in the world is accurately predicting floods and droughts. Such regions are usually devoid of large scale funded meteorological simulations as well as access to a large number of weather satellites focused on their region. However, we do have access to programs such the <code>Land Data Assimilation System (LDAS)</code> by <code>NASA</code> which can provide us with global datasets containing various hydrological and atmospheric recordings which can be used to predict surface runoff and hence evaluate drought/flooding conditions.</p>
+<p>One such dataset, is the <a href="https://ldas.gsfc.nasa.gov/gldas">Global Land Data Assimilation System (GLDAS)</a> which ingests satellite- and ground-based observational data products, using advanced land surface modeling and data assimilation techniques, in order to generate optimal fields of land surface states and fluxes (Rodell et al., 2004a). The software, which has been streamlined and parallelized by the Land Information System (LIS) sister project, drives multiple, offline (not coupled to the atmosphere) land surface models, integrates a huge quantity of observation based data, executes globally at high resolutions (2.5-degrees to 1 km), and is capable of producing results in near-real time.</p>
+<p>Using the above-mentioned dataset, if we are able to establish a model that can predict future surface runoff, we can use those runoffs in a simulation process called <a href="https://github.com/c-h-david/rapid/">RAPID</a> which will tell us exactly if a river may flood or not.</p>
+<p>The outcome variable in this case is <code>Surface Runoff</code> which is a continuous numeric value. This dataset contains the average of all 3-hour intervals over the month for all the variables. So, the actual values in the dataset are not the total runoff for the month, but rather an average every 3 hour. This value can be converted to the total runoff amount, but since all the other variables are also 3-hour and when we are examining each time step, we are only worried about the instantaneous state. Finally, since future data will also be in the format of instantaneous averages, the values were left unaltered.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggplot2)
 
-  <div class="poweredby">
-    Powered by <a href="https://gohugo.io/">Hugo</a>.
-  </div>
+library(plotly)
 
-  </footer>
 
-</div> 
+main_data_file = read_csv(&#39;data_monthly.csv&#39;, col_names=TRUE)
+
+x &lt;- list(
+  title = &quot;TimeStamp&quot;
+)
+y &lt;- list(
+  title = &quot;Surface Runoff (avg of 3 hour)&quot;
+  )
+
+main_data_file &lt;- main_data_file %&gt;% rename(surface_runoff = &quot;Surface Runoff Amount&quot;) 
+main_data_file %&gt;%
+  plot_ly(width = 960, height = 600) %&gt;%
+  layout(xaxis = x, yaxis = y) %&gt;%
+  add_trace(x = ~DateTime, y = ~surface_runoff, type =&quot;scatter&quot;, mode =&quot;lines+markers&quot;, name = &#39;Surface Runoff Amount&#39;)</code></pre>
+<div id="htmlwidget-ab1cab5be3b7b3580264" style="width:960px;height:600px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ab1cab5be3b7b3580264">{"x":{"visdat":{"686f49bfb77":["function () ","plotlyVisDat"]},"cur_data":"686f49bfb77","attrs":{"686f49bfb77":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines+markers","name":"Surface Runoff Amount","inherit":true}},"layout":{"width":960,"height":600,"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"TimeStamp"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Surface Runoff (avg of 3 hour)"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["2000-01-01","2000-02-01","2000-03-01","2000-04-01","2000-05-01","2000-06-01","2000-07-01","2000-08-01","2000-09-01","2000-10-01","2000-11-01","2000-12-01","2001-01-01","2001-02-01","2001-03-01","2001-04-01","2001-05-01","2001-06-01","2001-07-01","2001-08-01","2001-09-01","2001-10-01","2001-11-01","2001-12-01","2002-01-01","2002-02-01","2002-03-01","2002-04-01","2002-06-01","2002-07-01","2002-08-01","2002-09-01","2002-10-01","2002-11-01","2002-12-01","2003-01-01","2003-02-01","2003-03-01","2003-04-01","2003-05-01","2003-06-01","2003-07-01","2003-08-01","2003-09-01","2003-10-01","2003-11-01","2003-12-01","2004-01-01","2004-02-01","2004-03-01","2004-04-01","2004-05-01","2004-06-01","2004-07-01","2004-09-01","2004-10-01","2004-11-01","2004-12-01","2005-01-01","2005-02-01","2005-03-01","2005-04-01","2005-06-01","2005-07-01","2005-08-01","2005-09-01","2005-10-01","2005-11-01","2005-12-01","2006-01-01","2006-02-01","2006-03-01","2006-04-01","2006-05-01","2006-06-01","2006-07-01","2006-09-01","2006-10-01","2006-11-01","2006-12-01","2007-01-01","2007-02-01","2007-03-01","2007-04-01","2007-05-01","2007-06-01","2007-07-01","2007-08-01","2008-04-01","2008-06-01","2008-07-01","2008-08-01","2008-09-01","2008-10-01","2008-11-01","2009-04-01","2009-05-01","2009-06-01","2009-07-01","2009-08-01","2009-09-01","2009-11-01","2009-12-01","2010-02-01","2010-04-01","2010-09-01","2010-10-01","2010-11-01","2010-12-01","2011-01-01","2011-02-01","2011-03-01","2011-04-01","2011-05-01","2011-06-01","2011-07-01","2011-08-01","2011-09-01","2011-10-01","2011-11-01","2011-12-01","2012-01-01","2012-02-01","2012-03-01","2012-04-01","2012-05-01","2012-06-01","2012-07-01","2012-08-01","2012-09-01","2012-11-01","2012-12-01","2013-01-01","2013-02-01","2013-03-01","2013-04-01","2013-05-01","2013-06-01","2013-07-01","2013-08-01","2013-09-01","2013-10-01","2013-11-01","2013-12-01","2014-01-01","2014-02-01","2014-03-01","2014-04-01","2014-05-01","2014-10-01","2014-11-01","2014-12-01","2015-02-01","2015-03-01","2015-04-01","2015-05-01","2015-06-01","2015-07-01","2015-08-01","2015-09-01","2015-10-01","2016-04-01","2016-05-01","2016-06-01","2016-07-01","2016-08-01","2016-09-01","2016-10-01","2016-11-01","2016-12-01","2017-01-01","2017-02-01","2017-03-01","2017-04-01","2017-05-01","2017-06-01","2017-07-01","2017-08-01","2017-10-01","2017-12-01","2018-01-01","2018-02-01","2018-03-01","2018-04-01","2018-05-01","2018-06-01","2018-07-01","2018-08-01","2018-09-01","2018-10-01","2018-11-01","2018-12-01","2019-01-01","2019-02-01","2019-03-01","2019-04-01","2019-05-01","2019-06-01","2019-07-01","2020-09-29","2020-10-30","2020-11-29"],"y":[0.00189540325663984,0.00197956897318363,0.000440887088188902,0.000130750006064773,0.000414717738749459,0.000283958332147449,1.59274186444236e-05,0.00011657257709885,0.000216791668208316,0.00116874999366701,8.07499964139424e-05,0.000140040327096358,0.000489395170006901,0.00780191970989108,0.0107982661575079,0.000166625002748333,4.14919340983033e-05,0.000211708334973082,0.000198467736481689,6.12903204455506e-06,7.96250023995526e-05,0.000321854837238789,0.000189708327525295,0.00131826614961028,0.000291250005830079,0.00128397322259843,0.020169435068965,0.000945249979849905,0.00025962499785237,2.96774196613114e-05,2.10080652323086e-05,0.000530750025063753,0.000113104841148015,0.000437291659181938,0.000603991909883916,0.000648911285679787,0.00364955351687968,0.00165463704615831,0.00143445830326527,0.000137943541631103,3.55000011040829e-05,1.59274186444236e-05,0.000402379024308175,8.63333334564231e-05,4.24596764787566e-05,0.000530541641637683,0.000974919355940074,0.00153116940055043,0.00971650891005993,0.00594987906515598,0.000304958346532658,0.00164987903553993,0.000475916662253439,8.55645193951204e-05,0.0011450833408162,0.00349604827351868,6.78333308314905e-05,0.000579677405767143,0.000794838706497103,0.0131279462948442,0.00560616934671998,0.000709041662048548,0.00200975011102855,1.10080645754351e-05,0.000402782257879153,0.00129320833366364,0.00066165323369205,0.00136916665360332,0.00412302417680621,0.00763096753507853,0.0305670984089375,0.0488886684179306,0.00759545853361487,0.000330120965372771,0.000586499983910471,3.19354840030428e-05,0.000536874984391034,0.00177737907506526,0.000666291685774922,0.00403116922825575,0.000956411298830062,0.0144520532339811,0.00338012096472085,0.00051195832202211,7.71774211898446e-05,0.000226041665882803,8.7580643594265e-05,0.000900282233487815,0.000319624989060685,0.000208833327633329,2.21774189412827e-05,6.9798385084141e-05,0.000812250014860183,0.000761612900532782,0.000753791653551161,0.00125591666437685,0.000499153218697757,0.00387091655284166,0.000811491918284446,0.000243185480940156,0.000189958329428919,7.71249979152344e-05,0.000141330645419657,0.00313598220236599,0.00339716672897339,0.00044450000859797,0.000903830630704761,0.00105904170777649,0.00159818551037461,0.0043813711963594,0.0151917412877083,0.0235631857067347,0.000300291663734242,0.00232774182222784,0.000282624998362735,0.000527540338225663,0.000319233862683177,1.36666667458485e-05,0.00080778228584677,0.000159000002895482,0.000103911290352698,0.00179991940967739,0.000103793106973171,0.000588951632380486,0.000216958331293426,9.41532271099277e-05,1.74166671058629e-05,0.000115806455141865,1.1572580660868e-05,8.7624997831881e-05,0.000591541640460491,0.000342459679814056,2.75000002147863e-05,4.04017846449278e-05,4.7298388381023e-05,0.00010104166722158,0.000138427421916276,6.51666632620618e-05,6.63709652144462e-05,2.66935476247454e-05,0.000807583332061768,0.000105322578747291,8.3999999333173e-05,6.00403218413703e-05,0.00013104839308653,0.000815714302007109,0.00835217721760273,0.000373666669474915,0.000249193544732407,2.14919346035458e-05,0.000489458325318992,0.00132822582963854,0.000201428571017459,0.000112862901005428,6.77916686981916e-05,0.0014771370915696,4.23749988840427e-05,0.00042512096115388,8.88709691935219e-05,0.000374166673282161,0.000177056455868296,0.000134749992867,0.000521209673024714,2.77500002994202e-05,1.13306450657547e-05,4.03225794798345e-06,0.00111158331856132,0.000930201611481607,3.47916684404481e-05,0.000327540328726172,0.000698669347912073,0.00524209812283516,0.000787701632361859,0.00157937500625849,0.000264032249106094,0.000772583356592804,8.06451581070178e-08,1.45161288855888e-06,0.000202661292860284,6.57258060527965e-05,0.000366975815268233,0.000196294640772976,0.00138596771284938,0.00118662498425692,0.00169395166449249,0.000214166662772186,3.34677429236763e-06,2.07661287277006e-05,0,9.82258061412722e-05,0.00012429166235961,1.45161293403362e-05,0.000521895184647292,0.00128459825646132,0.000142459670314565,0.000196875000256114,0.000926814507693052,0.000839416694361717,4.37096787209157e-05,0.00016374999540858,0.000716083333827555,0.000276169361313805],"type":"scatter","mode":"lines+markers","name":"Surface Runoff Amount","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
 </html>
-
