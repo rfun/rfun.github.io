@@ -1,17 +1,15 @@
 /*--------------------------------------------------------------------- File Name: responsive.css ---------------------------------------------------------------------*/
 
-
 /*------------------------------------------------------------------- 991px x 768px ---------------------------------------------------------------------*/
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .main-menu ul>li a {
+    .main-menu ul > li a {
         padding: 20px 20px 20px;
     }
     .header-search {
         padding: 15px 0px;
     }
 }
-
 
 /*------------------------------------------------------------------- 767px x 599px ---------------------------------------------------------------------*/
 
@@ -29,7 +27,7 @@
         height: 256px;
         overflow-y: auto;
     }
-    .megamenu>.row [class*="col-"] {
+    .megamenu > .row [class*="col-"] {
         padding: 0px;
     }
     .menu-area-main .megamenu .men-cat {
@@ -84,14 +82,13 @@
     }
 }
 
-
 /*------------------------------------------------------------------- 599px x 280px ---------------------------------------------------------------------*/
 
 @media only screen and (min-width: 280px) and (max-width: 599px) {
     .cart-content-right {
         padding-bottom: 5px;
     }
-    .megamenu>.row [class*="col-"] {
+    .megamenu > .row [class*="col-"] {
         padding: 0px;
     }
     .menu-area-main .megamenu .men-cat {
@@ -130,7 +127,8 @@
     }
 }
 
-@media (min-width: 1200px) and (max-width: 1500px) {}
+@media (min-width: 1200px) and (max-width: 1500px) {
+}
 
 @media (min-width: 992px) and (max-width: 1199px) {
     .text-bg h1 {
@@ -159,7 +157,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .main-menu ul>li a {
+    .main-menu ul > li a {
         padding: 8px 12px 0 12px;
     }
     .full-slider_cont h1 {
@@ -226,7 +224,7 @@
 
 @media (max-width: 575px) {
     .header {
-        padding: 40px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
     }
     .logo {
         text-align: center !important;
